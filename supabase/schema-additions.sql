@@ -1,5 +1,5 @@
 -- =========================================
--- Mimo MVP — schema additions
+-- skillstack — schema additions
 -- Run in Supabase SQL Editor AFTER schema.sql + seed.sql (+ seed-additional.sql if used)
 -- Adds: badges, user_badges, public leaderboard read access
 -- =========================================
