@@ -5,6 +5,12 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { NetworkBackground } from "@/components/NetworkBackground";
 
+function formatSupabaseError(message: string) {
+  return /fetch|network|load failed/i.test(message)
+    ? "Unable to reach Supabase. Check your connection and verify NEXT_PUBLIC_SUPABASE_URL matches the Project URL in your Supabase settings."
+    : message;
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const supabase = createClient();
@@ -21,41 +27,54 @@ export default function LoginPage() {
     setError(null);
     setLoading(true);
 
-    if (mode === "signup") {
-      const { data, error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-
-      if (signUpError) {
-        setError(signUpError.message);
-        setLoading(false);
-        return;
-      }
-
-      if (data.user) {
-        await supabase.from("profiles").insert({
-          id: data.user.id,
-          username: username || email.split("@")[0],
-          xp: 0,
-          streak: 0,
+    try {
+      if (mode === "signup") {
+        const { data, error: signUpError } = await supabase.auth.signUp({
+          email,
+          password,
         });
-      }
-    } else {
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
 
-      if (signInError) {
-        setError(signInError.message);
-        setLoading(false);
-        return;
+        if (signUpError) {
+          setError(formatSupabaseError(signUpError.message));
+          return;
+        }
+
+        if (data.user) {
+          const { error: profileError } = await supabase.from("profiles").insert({
+            id: data.user.id,
+            username: username || email.split("@")[0],
+            xp: 0,
+            streak: 0,
+          });
+
+          if (profileError) {
+            setError(
+              `Account created, but profile setup failed: ${formatSupabaseError(profileError.message)}`
+            );
+            return;
+          }
+        }
+      } else {
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (signInError) {
+          setError(formatSupabaseError(signInError.message));
+          return;
+        }
       }
+
+      router.push("/dashboard");
+      router.refresh();
+    } catch (authError) {
+      const message =
+        authError instanceof Error ? authError.message : "Unknown network error";
+      setError(formatSupabaseError(`Sign-in failed: ${message}`));
+    } finally {
+      setLoading(false);
     }
-
-    router.push("/dashboard");
-    router.refresh();
   }
 
   return (

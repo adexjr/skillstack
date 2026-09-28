@@ -35,7 +35,7 @@ const config: Config = {
       },
       fontFamily: {
         display: ["Space Grotesk", "sans-serif"],
-        body: ["Inter", "sans-serif"],
+        body: ["DM Sans", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
       },
       boxShadow: {

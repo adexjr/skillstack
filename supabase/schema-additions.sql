@@ -1,11 +1,3 @@
--- =========================================
--- skillstack — schema additions
--- Run in Supabase SQL Editor AFTER schema.sql + seed.sql (+ seed-additional.sql if used)
--- Adds: badges, user_badges, public leaderboard read access
--- =========================================
-
--- ============ TABLES ============
-
 create table if not exists badges (
   id uuid primary key default gen_random_uuid(),
   slug text unique not null,
@@ -23,9 +15,6 @@ create table if not exists user_badges (
   earned_at timestamptz not null default now(),
   unique (user_id, badge_id)
 );
-
--- ============ RLS ============
-
 alter table badges enable row level security;
 alter table user_badges enable row level security;
 
@@ -41,16 +30,9 @@ create policy "User badges are insertable by owner"
   on user_badges for insert
   with check (auth.uid() = user_id);
 
--- Leaderboard needs to read other users' username/xp/streak.
--- Profiles contain no sensitive data (email lives in auth.users), so a
--- public read policy here is safe. This is OR'd with the existing
--- owner-only policy from schema.sql, effectively making all profiles
--- readable — which is what a leaderboard requires.
 create policy "Profiles are publicly readable for leaderboard"
   on profiles for select
   using (true);
-
--- ============ SEED BADGES ============
 
 insert into badges (slug, title, description, icon, criteria_type, criteria_value)
 values

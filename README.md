@@ -62,7 +62,8 @@ npm install
    - `supabase/schema.sql`
    - `supabase/seed.sql`
    - `supabase/schema-additions.sql`
-   - `supabase/seed-additional.sql` *(optional — adds Python/React/SQL courses)*
+    - `supabase/seed-catalog.sql` *(adds HTML, CSS, and C++; safe to rerun)*
+  - `supabase/seed-curriculum-level-2.sql` *(adds 14 lessons and 42 practice questions across all tracks; safe to rerun)*
 3. Grab your **Project URL** and **anon/publishable key** from Project Settings → API.
 
 ### 3. Configure environment variables

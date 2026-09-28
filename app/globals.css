@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -9,9 +9,52 @@ body {
   margin: 0;
   padding: 0;
   background-color: #0b0d12;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+  background-size: 36px 36px;
   color: #f4f6fa;
   width: 100%;
   min-height: 100%;
+}
+
+.app-grid {
+  background: linear-gradient(180deg, rgba(11, 13, 18, 0.84), rgba(11, 13, 18, 0.97));
+}
+
+.practice-editor .cm-editor {
+  min-height: 330px;
+  background: #0e1117;
+  color: #dce5e1;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+}
+
+.practice-editor .cm-scroller {
+  overflow: auto;
+  line-height: 1.8;
+}
+
+.practice-editor .cm-gutters {
+  border-right: 1px solid #232732;
+  background: #0e1117;
+  color: #596273;
+}
+
+.practice-editor .cm-activeLineGutter,
+.practice-editor .cm-activeLine {
+  background: rgba(127, 255, 176, 0.045);
+}
+
+.practice-editor .cm-cursor {
+  border-left-color: #7fffb0;
+}
+
+.practice-editor .cm-selectionBackground,
+.practice-editor ::selection {
+  background: rgba(127, 255, 176, 0.18) !important;
+}
+
+body {
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 * {

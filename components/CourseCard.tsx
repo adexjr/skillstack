@@ -26,17 +26,17 @@ export function CourseCard({
   const nextLesson = lessons.find((l) => !completedLessonIds.has(l.id));
 
   return (
-    <div className="rounded-xl border border-base-700 bg-base-900 p-5">
+    <article className="flex h-full flex-col rounded-xl border border-base-700 bg-base-900 p-5 transition-colors hover:border-base-600">
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-base-800 text-lg">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-base-800 font-mono text-xs font-bold text-mint-400">
             {icon}
           </span>
           <div>
             <h3 className="font-display text-base font-semibold text-ink-100">
               {title}
             </h3>
-            <p className="text-xs text-ink-500">{description}</p>
+            <p className="mt-1 text-xs leading-5 text-ink-500">{description}</p>
           </div>
         </div>
       </div>
@@ -52,19 +52,19 @@ export function CourseCard({
       </div>
 
       {lessons.length === 0 ? (
-        <p className="mt-4 text-xs text-ink-500">Lessons coming soon.</p>
+        <p className="mt-auto pt-4 text-xs text-ink-500">Lessons coming soon.</p>
       ) : nextLesson ? (
         <Link
           href={`/lesson/${nextLesson.id}`}
-          className="mt-4 block w-full rounded-lg bg-mint-400 py-2 text-center font-display text-sm font-semibold text-base-950 transition hover:bg-mint-500"
+          className="mt-auto block w-full rounded-lg bg-mint-400 py-2.5 text-center font-display text-sm font-semibold text-base-950 transition hover:bg-mint-500"
         >
           {completedCount === 0 ? "Start course" : "Continue"}
         </Link>
       ) : (
-        <div className="mt-4 rounded-lg border border-mint-400/30 bg-mint-400/10 py-2 text-center font-display text-sm font-semibold text-mint-400">
+        <div className="mt-auto rounded-lg border border-mint-400/30 bg-mint-400/10 py-2.5 text-center font-display text-sm font-semibold text-mint-400">
           Course complete ✓
         </div>
       )}
-    </div>
+    </article>
   );
 }
